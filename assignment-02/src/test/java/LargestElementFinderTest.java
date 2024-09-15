@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import com.almariebaker.LargestElementFinder;
 
 public class LargestElementFinderTest {
+    // Normal test case
     @Test
     void testLocateLargest() {
         double[][] array = {
@@ -21,6 +22,7 @@ public class LargestElementFinderTest {
         assertArrayEquals(expected, LargestElementFinder.locateLargest(array));
     }
 
+    // Test case where the first element is the largest
     @Test
     void testLocateLargestFirst() {
         double[][] array = {
@@ -32,6 +34,7 @@ public class LargestElementFinderTest {
         assertArrayEquals(expected, LargestElementFinder.locateLargest(array));
     }
 
+    // Test case where the last element is the largest
     @Test
     void testLocateLargestLast() {
         double[][] array = {
@@ -43,6 +46,7 @@ public class LargestElementFinderTest {
         assertArrayEquals(expected, LargestElementFinder.locateLargest(array));
     }
 
+    // Test case where all elements are the same
     @Test
     void testLocateLargestSame() {
         double[][] array = {
@@ -51,6 +55,18 @@ public class LargestElementFinderTest {
                 {5, 5, 5, 5}
         };
         int[] expected = {0, 0};
+        assertArrayEquals(expected, LargestElementFinder.locateLargest(array));
+    }
+
+    // Test case with negative numbers
+    @Test
+    void testLocateLargestNegative() {
+        double[][] array = {
+                {-15.2, -6.5, -75, -57},
+                {-38, -2.6, -37.9, -45.6},
+                {-21.1, -9, -10.2, -8.6}
+        };
+        int[] expected = {1, 1};
         assertArrayEquals(expected, LargestElementFinder.locateLargest(array));
     }
 }
