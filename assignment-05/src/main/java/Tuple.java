@@ -14,11 +14,7 @@ public class Tuple {
         this.capitalized = capitalized;
     }
 
-    public int getIndex() {
-        return index;
-    }
+    public int getIndex() { return index; }
 
-    public boolean getCapitalized() {
-        return capitalized;
-    }
+    public boolean isCapitalized() { return capitalized; }
 }

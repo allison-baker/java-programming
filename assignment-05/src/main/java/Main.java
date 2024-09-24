@@ -5,30 +5,35 @@ import java.util.*;
 public class Main {
     static String filePath;
     static int numWords;
-    static List<String> lines = new ArrayList<>();
-    static Map<String, WordData> unsortedMap = new HashMap<>();
+    static List<String> lines;
+    static Map<String, WordData> unsortedMap;
 
-    static void readFile() {
+    static List<String> readFile(String path) {
+        List<String> fileLines = new ArrayList<>();
+
         // Create Scanner for reading from the file
-        try (Scanner fileScanner = new Scanner(new File(filePath))) {
+        try (Scanner fileScanner = new Scanner(new File(path))) {
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
                 // Add each line with content to the ArrayList
                 if (!line.isBlank()) {
-                    lines.add(line);
+                    fileLines.add(line);
                 }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        return fileLines;
     }
 
-    static void populateMap() {
+    static Map<String, WordData> populateMap(List<String> fileLines) {
+        Map<String, WordData> map = new LinkedHashMap<>();
         int currIndex = 0;
 
-        for (String line : lines) {
+        for (String fileLine : fileLines) {
             // Create an array of words in the current line, remove digits and split on white space
-            String[] words = line.replaceAll("\\d", "").split("\\s+");
+            String[] words = fileLine.replaceAll("\\d", "").split("\\s+");
 
             for (String word : words) {
                 // Remove any leading or trailing punctuation on word
@@ -38,41 +43,69 @@ public class Main {
                     boolean capitalized = Character.isUpperCase(word.charAt(0));
 
                     // Check if word already exists in list, add occurrence or create new WordData object and add to map
-                    if (unsortedMap.get(word.toLowerCase()) != null) {
-                        unsortedMap.get(word.toLowerCase()).addOccurrence(currIndex, capitalized);
+                    if (map.get(word.toLowerCase()) != null) {
+                        map.get(word.toLowerCase()).addOccurrence(currIndex, capitalized);
                     } else {
                         WordData data = new WordData(word.toLowerCase(), currIndex, capitalized);
-                        unsortedMap.put(word.toLowerCase(), data);
+                        map.put(word.toLowerCase(), data);
                     }
 
                     currIndex++;
                 }
             }
         }
+
+        return map;
     }
 
-    static void printAlpha() {
-        System.out.printf("Alphabetically: %d words\n", numWords);
-        // Create tree map from original map to sort alphabetically
-        Map<String, WordData> alphaMap = new TreeMap<>(unsortedMap);
+    static void printAlpha(int userNum, Map<String, WordData> map) {
+        System.out.printf("\nFirst %d words, alphabetically:\n", userNum);
+        System.out.println("\"Word\"");
+        System.out.println("\tPosition, Capitalized");
+
+        // Create list to hold the first numWords unique words
+        List<WordData> commonWords = new ArrayList<>();
 
         int count = 0;
-        for (Map.Entry<String, WordData> entry : alphaMap.entrySet()) {
-            // Just print the number of words the user requested
-            if (count < numWords) {
-                System.out.println(entry.getKey() + " " + entry.getValue().getCount());
+        for (Map.Entry<String, WordData> entry : map.entrySet()) {
+            // Add ot common words list
+            if (count < userNum) {
+                commonWords.add(entry.getValue());
                 count++;
             } else break;
         }
-        System.out.println();
+
+        // Sort the list alphabetically
+        commonWords.sort(Comparator.comparing(WordData::getWord));
+
+        // Print all words and occurrences
+        for (WordData word : commonWords) {
+            System.out.printf("\"%s\"\n", word.getWord());
+            for (Tuple occurrence : word.getOccurrences()) {
+                System.out.printf("\t%d %b\n", occurrence.getIndex(), occurrence.isCapitalized());
+            }
+        }
     }
 
-    static void printByCount() {
-        System.out.printf("By count: %d words\n", numWords);
+    static void printByCount(int userNum, Map<String, WordData> map) {
+        System.out.printf("\n%d words by count: \"Word\", Count\n", userNum);
 
-        // TODO: Create a list of WordData objects from the map
+        // Create a list of WordData objects from the map
+        List<WordData> countList = new ArrayList<>();
+        for (Map.Entry<String, WordData> entry : map.entrySet()) {
+            countList.add(entry.getValue());
+        }
 
-        System.out.println();
+        countList.sort((o1, o2) -> o2.getCount() - o1.getCount());
+
+        int count = 0;
+        for (WordData data : countList) {
+            // Just print the number of words that the user requested
+            if (count < userNum) {
+                System.out.printf("\"%s\" %d\n", data.getWord(), data.getCount());
+                count++;
+            } else break;
+        }
     }
 
     public static void main(String[] args) {
@@ -81,15 +114,15 @@ public class Main {
         numWords = Integer.parseInt(args[1]);
 
         // Read lines from the file
-        readFile();
+        lines = readFile(filePath);
 
         // Populate the map with the words and their data
-        populateMap();
+        unsortedMap = populateMap(lines);
 
         // Print number of words user entered in alphabetical order
-        printAlpha();
+        printAlpha(numWords, unsortedMap);
 
         // Print number of words user entered in order of count
-        printByCount();
+        printByCount(numWords, unsortedMap);
     }
 }
