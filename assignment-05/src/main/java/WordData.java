@@ -5,34 +5,30 @@
 // Date: 09/22/2024
 // Purpose: Create a word data object for occurrences, indexes, and capital occurrences.
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.LinkedList;
 
 public class WordData {
     private String word;
-    private Map<Integer, Boolean> occurrences = new HashMap<>();
-    private int count = 0;
+    private List<Tuple> occurrences = new LinkedList<>();
 
     public WordData(String word, int index, boolean capitalized) {
         this.word = word;
-        occurrences.put(index, capitalized);
-        count++;
+        addOccurrence(index, capitalized);
     }
 
     public String getWord() {
         return word;
     }
 
-    public Map<Integer, Boolean> getOccurrences() {
+    public List<Tuple> getOccurrences() {
         return occurrences;
     }
 
-    public int getCount() {
-        return count;
-    }
+    public int getCount() { return occurrences.size(); }
 
-    public void addOccurrences (int index, boolean capitalized) {
-        occurrences.put(index, capitalized);
-        count++;
+    public void addOccurrence (int index, boolean capitalized) {
+        Tuple newOccurrence = new Tuple(index, capitalized);
+        occurrences.add(newOccurrence);
     }
 }

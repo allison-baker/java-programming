@@ -8,8 +8,33 @@
 import org.junit.jupiter.api.Test;
 
 public class MainTest {
+    // TODO: test that the program gets the correct input from user
     @Test
-    public void testMain() {
-        // TODO: Write tests for the main method
+    public void testInput() {
+        // do stuff
+    }
+
+    // TODO: test that the program reads the file correctly
+    @Test
+    public void testReadFile() {
+        // do stuff
+    }
+
+    // TODO: test that the program populates the map correctly
+    @Test
+    public void testPopulateMap() {
+        // do stuff
+    }
+
+    // TODO: test that the program prints the correct number of words in alphabetical order
+    @Test
+    public void testPrintAlpha() {
+        // do stuff
+    }
+
+    // TODO: test that the program prints the correct number of words by count
+    @Test
+    public void testPrintByCount() {
+        // do stuff
     }
 }
