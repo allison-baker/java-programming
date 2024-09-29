@@ -5,6 +5,7 @@
 // Date: 09/26/2024
 // Purpose: This program tests the updated Adventure class with additional functionality.
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -15,7 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AdventureTest {
-    private final Adventure adventureTest = new Adventure(0, 0, new String[] {"brass lantern", "rope", "rations", "staff"});
+    private static final Adventure adventureTest = new Adventure(0, 0);
+
+    // Set up map with test file before other tests
+    @BeforeAll
+    static void setMap() {
+        Map map = new Map("src/test/resources/map.txt");
+        adventureTest.setMap(map);
+    }
 
     // Test print inventory method
     @Test
@@ -25,7 +33,7 @@ public class AdventureTest {
         System.setOut(new PrintStream(outputStream));
 
         // Call print inventory method
-        adventureTest.printInventory();
+        adventureTest.character.printInventory();
 
         // Check output
         String output = outputStream.toString();
@@ -58,18 +66,18 @@ public class AdventureTest {
     @Test
     public void testCases() {
         assertAll("uppercase",
-                () -> {
-                    adventureTest.startAdventure("G N");
-                    assertEquals("go", adventureTest.currCommand);
-                },
-                () -> {
-                    adventureTest.startAdventure("I");
-                    assertEquals("inventory", adventureTest.currCommand);
-                },
-                () -> {
-                    Exception e = assertThrows(RuntimeException.class, () -> adventureTest.startAdventure("Q"));
-                    assertEquals("quit", adventureTest.currCommand);
-                }
+            () -> {
+                adventureTest.startAdventure("G N");
+                assertEquals("go", adventureTest.currCommand);
+            },
+            () -> {
+                adventureTest.startAdventure("I");
+                assertEquals("inventory", adventureTest.currCommand);
+            },
+            () -> {
+                Exception e = assertThrows(RuntimeException.class, () -> adventureTest.startAdventure("Q"));
+                assertEquals("quit", adventureTest.currCommand);
+            }
         );
     }
 
@@ -79,23 +87,23 @@ public class AdventureTest {
         assertAll("boundaries",
                 () -> {
                     adventureTest.startAdventure("g n");
-                    assertEquals(0, adventureTest.currCol);
+                    assertEquals(0, adventureTest.character.currRow);
                 },
                 () -> {
-                    for (int i =0; i<5; i++) {
+                    for (int i = 0; i < adventureTest.map.getMaxRows(); i++) {
                         adventureTest.startAdventure("g s");
                     }
-                    assertEquals(4, adventureTest.currCol);
+                    assertEquals(9, adventureTest.character.currRow);
                 },
                 () -> {
                     adventureTest.startAdventure("g w");
-                    assertEquals(0, adventureTest.currRow);
+                    assertEquals(0, adventureTest.character.currCol);
                 },
                 () -> {
-                    for (int i =0; i<5; i++) {
+                    for (int i = 0; i < adventureTest.map.getMaxCols(); i++) {
                         adventureTest.startAdventure("g e");
                     }
-                    assertEquals(4, adventureTest.currRow);
+                    assertEquals(11, adventureTest.character.currCol);
                 });
     }
 
@@ -123,5 +131,47 @@ public class AdventureTest {
         assertEquals("Must include a direction with 'go' command.", outputStream.toString().split(System.lineSeparator())[0]);
 
         System.setOut(originalOut);
+    }
+
+    // Test map files that are the wrong dimensions
+    @Test
+    public void testErrorMap() {
+        Exception e = assertThrows(RuntimeException.class, () -> new Map("src/test/resources/errorMap.txt"));
+        assertEquals("Map file does not match dimensions.", e.getMessage());
+    }
+
+    // Test that the map class prints the terrain correctly
+    @Test
+    public void testPrintTerrain() {
+        // Test top left corner, middle of the map, bottom right corner
+        assertAll("printing terrain",
+            () -> {
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                PrintStream originalOut = System.out;
+                System.setOut(new PrintStream(outputStream));
+                adventureTest.map.printTerrain(0, 0);
+                String expected = "XXX" + System.lineSeparator() + "X~~" + System.lineSeparator() + "X~~";
+                assertEquals(expected, outputStream.toString().trim());
+                System.setOut(originalOut);
+            },
+            () -> {
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                PrintStream originalOut = System.out;
+                System.setOut(new PrintStream(outputStream));
+                adventureTest.map.printTerrain(5, 6);
+                String expected = "MMM" + System.lineSeparator() + "fMM" + System.lineSeparator() + "ffM";
+                assertEquals(expected, outputStream.toString().trim());
+                System.setOut(originalOut);
+            },
+            () -> {
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                PrintStream originalOut = System.out;
+                System.setOut(new PrintStream(outputStream));
+                adventureTest.map.printTerrain(9, 11);
+                String expected = "f.X" + System.lineSeparator() + "ffX" + System.lineSeparator() + "XXX";
+                assertEquals(expected, outputStream.toString().trim());
+                System.setOut(originalOut);
+            }
+        );
     }
 }
