@@ -6,7 +6,17 @@
 // Purpose: Hold the puzzle part of the word search program.
 
 public class Puzzle {
-    // TODO: Data structure that holds puzzle
+    Character[][] grid;
+    int size;
 
-    // TODO: Getters and setters
+    public Puzzle(int size) {
+        grid = new Character[size][size];
+        this.size = size;
+    }
+
+    public void addChar(char c, int row, int col) { grid[row][col] = c; }
+
+    public int getSize() { return size; }
+
+    public char getCharAt(int row, int col) { return grid[row][col]; }
 }
