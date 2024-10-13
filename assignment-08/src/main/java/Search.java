@@ -70,7 +70,7 @@ public class Search {
             if (location.isEmpty()) {
                 System.out.printf("%s not found\n", word);
             } else {
-                System.out.printf("%s found at start: (%d, %d) and end: (%d, %d)\n", word, location.get("start")[0], location.get("start")[1], location.get("end")[0], location.get("end")[1]);
+                System.out.printf("%s found at start: %d, %d end: %d, %d\n", word, location.get("start")[0], location.get("start")[1], location.get("end")[0], location.get("end")[1]);
             }
         }
     }
