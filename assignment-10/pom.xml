@@ -90,7 +90,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>com.almariebaker.assignment10/com.almariebaker.assignment10.HelloApplication</mainClass>
+              <mainClass>com.almariebaker.assignment10/com.almariebaker.assignment10.JIMachine</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.almariebaker.assignment10.JIMController">
+  <center>
+    <ImageView fx:id="imageView" fitHeight="500.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true"/>
+  </center>
+  <top>
+    <VBox alignment="CENTER" spacing="10.0" prefHeight="120.0" style="-fx-background-color: white;">
+      <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+      </padding>
+      <Text text="Java Image Machine" style="-fx-font-size: 24px;"/>
+      <Text text="Load an image, zoom in and out, reset to normal scale, or quit the application." style="-fx-font-size: 12px;"/>
+    </VBox>
+  </top>
+  <right>
+    <VBox alignment="CENTER" spacing="15.0" prefWidth="140.0" style="-fx-background-color: white;">
+      <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+      </padding>
+
+      <Button text="Open" onAction="#onOpenButtonClick" prefWidth="100.0">
+        <padding>
+          <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+        </padding>
+      </Button>
+
+      <Button text="Zoom In" onAction="#onInButtonClick" prefWidth="100.0">
+        <padding>
+          <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+        </padding>
+      </Button>
+
+      <Button text="100%" onAction="#onResetButtonClick" prefWidth="100.0">
+          <padding>
+          <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+        </padding>
+      </Button>
+
+      <Button text="Zoom Out" onAction="#onOutButtonClick" prefWidth="100.0">
+        <padding>
+          <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+        </padding>
+      </Button>
+
+      <Button text="Quit" onAction="#onQuitButtonClick" prefWidth="100.0">
+        <padding>
+          <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+        </padding>
+      </Button>
+    </VBox>
+  </right>
+</BorderPane>
