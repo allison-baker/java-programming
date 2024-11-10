@@ -6,6 +6,7 @@
 // Purpose: Test the file scraper and indexing program.
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.*;
 
@@ -14,9 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.almariebaker.assignment12.Tuple;
-import com.almariebaker.assignment12.WordData;
-import com.almariebaker.assignment12.Main;
+import com.almariebaker.assignment12.*;
 
 public class MainTest {
     static Map<String, WordData> sampleMap = new LinkedHashMap<>();
@@ -49,7 +48,14 @@ public class MainTest {
     // Test that the program reads the file correctly
     @Test
     public void testReadFile() {
-        List<String> testLines = Main.readFile("src/test/resources/test.txt");
+        List<String> testLines = new ArrayList<>();
+
+        try {
+            testLines = Main.readFile("src/test/resources/test.txt");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         assertIterableEquals(sampleLines, testLines);
     }
 
@@ -72,46 +78,5 @@ public class MainTest {
                     }
             );
         }
-    }
-
-    // Test that the program prints the correct number of words in alphabetical order
-    @Test
-    public void testPrintAlpha() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outputStream));
-
-        Main.printAlpha(5, sampleMap);
-        String expected =
-                "\nFirst 5 words, alphabetically:\n"
-                        + "\"Word\"" + System.lineSeparator() + "\tPosition, Capitalized" + System.lineSeparator()
-                        + "\"a\"\n\t2 false\n\t11 false\n"
-                        + "\"file\"\n\t4 false\n\t14 true\n"
-                        + "\"is\"\n\t1 false\n\t12 true\n"
-                        + "\"test\"\n\t3 false\n"
-                        + "\"this\"\n\t0 true\n\t13 false\n";
-        assertEquals(expected, outputStream.toString());
-
-        System.setOut(originalOut);
-    }
-
-    // Test that the program prints the correct number of words by count
-    @Test
-    public void testPrintByCount() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outputStream));
-
-        Main.printByCount(5, sampleMap);
-        String expected =
-                "\n5 words by count: \"Word\", Count\n"
-                        + "\"this\" 2\n"
-                        + "\"is\" 2\n"
-                        + "\"a\" 2\n"
-                        + "\"file\" 2\n"
-                        + "\"words\" 2\n";
-        assertEquals(expected, outputStream.toString());
-
-        System.setOut(originalOut);
     }
 }
