@@ -1,3 +1,10 @@
+// Project Prolog
+// Name: Al Baker
+// CS3250 Section 601
+// Project: Assignment 13
+// Date: 11/24/2024
+// Purpose: Connect to the chat server and send and receive messages.
+
 package com.almariebaker.assignment13;
 
 import java.awt.BorderLayout;
@@ -21,8 +28,8 @@ public class ChatClient extends JFrame {
     PrintWriter output;
     String username = "anon";
 
-    synchronized void addMessage(String var1) {
-        this.msgTextArea.append(var1);
+    synchronized void addMessage(String message) {
+        this.msgTextArea.append(message);
         this.msgTextArea.setCaretPosition(this.msgTextArea.getDocument().getLength());
     }
 
@@ -33,6 +40,8 @@ public class ChatClient extends JFrame {
         this.setLayout(new BorderLayout());
         this.msgTextArea = new JTextArea();
         this.msgTextArea.setBorder(this.padding);
+        this.msgTextArea.setEditable(false);
+        this.msgTextArea.setFocusable(false);
         this.scrollPane = new JScrollPane(this.msgTextArea);
         this.scrollPane.setBorder(this.padding);
 
@@ -41,8 +50,13 @@ public class ChatClient extends JFrame {
         userInput.setLayout(new BoxLayout(userInput, BoxLayout.X_AXIS));
         userInput.setBorder(this.padding);
         userInput.add(this.msgEntryField);
+
         JButton sendButton = new JButton("Send");
+        sendButton.addActionListener((e) -> { this.sendMessage(); });
         userInput.add(sendButton);
+        JButton disconnectButton = new JButton("Quit");
+        disconnectButton.addActionListener((e) -> { this.disconnect(); });
+        userInput.add(disconnectButton);
 
         this.add(this.scrollPane, "Center");
         this.add(userInput, "South");
@@ -88,8 +102,11 @@ public class ChatClient extends JFrame {
         String message = this.msgEntryField.getText();
         if (message.equalsIgnoreCase("/q")) {
             this.disconnect();
+        } else if (message.equalsIgnoreCase("connect")) {
+            this.connect();
+            this.msgEntryField.setText("");
         } else {
-            this.addMessage(message + "\n");
+            this.addMessage(this.username + ": " + message + "\n");
             this.write(message);
             this.msgEntryField.setText("");
         }

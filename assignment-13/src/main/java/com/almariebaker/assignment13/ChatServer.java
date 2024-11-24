@@ -1,3 +1,10 @@
+// Project Prolog
+// Name: Al Baker
+// CS3250 Section 601
+// Project: Assignment 13
+// Date: 11/24/2024
+// Purpose: Host the chat server, receive and send messages to clients.
+
 package com.almariebaker.assignment13;
 
 import java.io.*;
@@ -104,7 +111,7 @@ public class ChatServer {
 
             try {
                 // Close connection and remove client from list
-                this.send("disconnected");
+                this.send("disconnected " + this.name);
                 this.connected = false;
                 this.incoming.close();
                 this.server.clients.remove(this);
