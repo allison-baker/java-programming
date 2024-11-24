@@ -141,7 +141,8 @@ public class MainController {
     @FXML
     protected void searchWord() {
         searchTerm = search.getText().toLowerCase();
-        if (unsortedMap.get(searchTerm) != null) {
+        boolean isFound = searchFile(searchTerm, unsortedMap);
+        if (isFound) {
             type.setText(String.format("Search Results for \"%s\":\n\"Word\", Count", searchTerm));
             results.setText(String.format("\"%s\" %d", searchTerm, unsortedMap.get(searchTerm).getCount()));
         } else {

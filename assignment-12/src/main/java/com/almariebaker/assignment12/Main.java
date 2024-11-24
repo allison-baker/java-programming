@@ -66,6 +66,8 @@ public class Main extends Application {
         return map;
     }
 
+    public static Boolean searchFile(String searchTerm, Map<String, WordData> map) { return map.get(searchTerm) != null; }
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("word-search.fxml"));
