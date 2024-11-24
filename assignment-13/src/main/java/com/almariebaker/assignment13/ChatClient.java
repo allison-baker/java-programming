@@ -7,14 +7,15 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 import javax.swing.*;
+import javax.swing.border.Border;
 
 public class ChatClient extends JFrame {
     public static final int DEFAULT_PORT = 4688;
+    Border padding = BorderFactory.createEmptyBorder(20, 20, 20, 20);
     ChatReader chatReader;
     JTextArea msgTextArea;
     JScrollPane scrollPane;
     JTextField msgEntryField;
-    JPanel entryPanel;
     Socket socket;
     Scanner input;
     PrintWriter output;
@@ -28,17 +29,30 @@ public class ChatClient extends JFrame {
     public ChatClient(String user) {
         this.username = user;
         this.setTitle("Chat: " + user);
+
         this.setLayout(new BorderLayout());
         this.msgTextArea = new JTextArea();
+        this.msgTextArea.setBorder(this.padding);
         this.scrollPane = new JScrollPane(this.msgTextArea);
+        this.scrollPane.setBorder(this.padding);
+
         this.msgEntryField = new JTextField();
-        this.entryPanel = new JPanel();
+        JPanel userInput = new JPanel();
+        userInput.setLayout(new BoxLayout(userInput, BoxLayout.X_AXIS));
+        userInput.setBorder(this.padding);
+        userInput.add(this.msgEntryField);
+        JButton sendButton = new JButton("Send");
+        userInput.add(sendButton);
+
         this.add(this.scrollPane, "Center");
-        this.add(this.msgEntryField, "South");
+        this.add(userInput, "South");
+
         InputMap inputMap = this.msgEntryField.getInputMap(JComponent.WHEN_FOCUSED);
-        ActionMap actionMap = this.msgEntryField.getActionMap();
         inputMap.put(KeyStroke.getKeyStroke(10, 0), "sendMessageCmd");
+
+        ActionMap actionMap = this.msgEntryField.getActionMap();
         actionMap.put("sendMessageCmd", new KeyAction("sendMessageCmd"));
+
         this.msgTextArea.setLineWrap(true);
         this.msgTextArea.setWrapStyleWord(true);
     }
