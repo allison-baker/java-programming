@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.HBox?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.almariebaker.assignment14.JIMController">
+    <center>
+        <StackPane>
+            <BorderPane fx:id="chosenImageView" prefWidth="860.0" prefHeight="580.0">
+                <center>
+                    <VBox alignment="CENTER" style="-fx-background-color: whitesmoke;">
+                        <ImageView fx:id="currentImage" preserveRatio="true" pickOnBounds="true" fitHeight="600.0" fitWidth="800.0"/>
+                    </VBox>
+                </center>
+                <bottom>
+                    <VBox alignment="CENTER" spacing="20.0" minHeight="200.0"
+                          style="-fx-background-color: white; -fx-border-width: 2 0 0 0; -fx-border-color: lightgray;">
+                        <padding>
+                            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                        </padding>
+                        <Label fx:id="imageTitle" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+                        <Label fx:id="captionLabel" style="-fx-font-size: 14px; -fx-font-style: italic;" />
+                        <HBox alignment="CENTER" spacing="15.0">
+                            <TextField fx:id="caption" promptText="Enter a caption" prefWidth="300.0" onKeyPressed="#enterKeyCheck">
+                                <padding>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                                </padding>
+                            </TextField>
+                            <Button text="Add Caption" onAction="#addCaption" prefWidth="100.0">
+                                <padding>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                                </padding>
+                            </Button>
+                        </HBox>
+                        <Label fx:id="error" style="-fx-font-size: 14px; -fx-text-fill: red;"/>
+                        <HBox alignment="CENTER" spacing="15.0">
+                            <Button text="Prev" onAction="#onPrevButtonClick" prefWidth="100.0">
+                                <padding>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                                </padding>
+                            </Button>
+
+                            <Button text="Zoom Out" onAction="#onOutButtonClick" prefWidth="100.0">
+                                <padding>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                                </padding>
+                            </Button>
+
+                            <Button text="Reset" onAction="#onResetButtonClick" prefWidth="100.0">
+                                <padding>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                                </padding>
+                            </Button>
+
+                            <Button text="Album View" onAction="#toAlbumView" prefWidth="100.0">
+                                <padding>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                                </padding>
+                            </Button>
+
+                            <Button text="Zoom In" onAction="#onInButtonClick" prefWidth="100.0">
+                                <padding>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                                </padding>
+                            </Button>
+
+                            <Button text="Next" onAction="#onNextButtonClick" prefWidth="100.0">
+                                <padding>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                                </padding>
+                            </Button>
+                        </HBox>
+                    </VBox>
+                </bottom>
+            </BorderPane>
+            <ScrollPane fx:id="galleryScroll" style="-fx-background-color: whitesmoke;">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                </padding>
+                <TilePane alignment="TOP_CENTER" fx:id="imageGallery" vgap="20.0" hgap="20.0"
+                          style="-fx-background-color: whitesmoke;"/>
+            </ScrollPane>
+        </StackPane>
+    </center>
+    <top>
+        <VBox alignment="CENTER" spacing="10.0" prefHeight="120.0"
+              style="-fx-background-color: white; -fx-border-width: 0 0 2 0; -fx-border-color: lightgray;">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </padding>
+            <Text text="Java Image Machine" style="-fx-font-size: 24px;"/>
+            <Text text="Load an album, view thumbnails, select a photo, add captions, and more."
+                  style="-fx-font-size: 12px;"/>
+        </VBox>
+    </top>
+    <right>
+        <VBox alignment="CENTER" spacing="15.0" prefWidth="140.0"
+              style="-fx-background-color: white; -fx-border-width: 0 0 0 2; -fx-border-color: lightgray;">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </padding>
+
+            <Button text="Open Album" onAction="#onOpenButtonClick" prefWidth="100.0">
+                <padding>
+                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                </padding>
+            </Button>
+
+            <Button text="Save Album" onAction="#onSaveButtonClick" prefWidth="100.0">
+                <padding>
+                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                </padding>
+            </Button>
+
+            <Button text="Quit" onAction="#onQuitButtonClick" prefWidth="100.0">
+                <padding>
+                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                </padding>
+            </Button>
+        </VBox>
+    </right>
+</BorderPane>
